@@ -7,4 +7,4 @@ class BaseLoadBalancer:
 
     def add_server(self, server):
         with self.lock:
-            self.servers.append(server)
+            self.servers.add(server)
