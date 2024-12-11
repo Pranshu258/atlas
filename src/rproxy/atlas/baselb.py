@@ -6,5 +6,6 @@ class BaseLoadBalancer:
         self.lock = threading.Lock()
 
     def add_server(self, server):
-        with self.lock:
-            self.servers.add(server)
+        if server not in self.servers:
+            with self.lock:
+                self.servers.append(server)
