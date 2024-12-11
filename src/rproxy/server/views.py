@@ -1,4 +1,5 @@
 import asyncio
+import aiohttp
 from django.http import HttpResponse
 from .apps import ServerConfig
 
@@ -8,4 +9,8 @@ async def register(request):
 
 async def forward(request, path):
     origin = await ServerConfig.loadbalancer.get_next_server()
-    return HttpResponse("Forwarding request to server " + origin + " for path " + path)
+    url = f"http://{origin}/{path}" 
+    async with aiohttp.ClientSession() as session: 
+        async with session.get(url) as response:
+            originalResponse = await response.text()
+            return HttpResponse(f"Response from {origin}: {originalResponse}")
