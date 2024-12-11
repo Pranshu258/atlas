@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from atlaslb import registration
+from apps import loadbalancer
 
 def register(request):
-    message = registration.register("randomhostname")
+    message = loadbalancer.add_server("randomhostname")
     return HttpResponse(message)
 
 def forward(request, path):
