@@ -1,11 +1,12 @@
 import threading
+import asyncio
 
 class BaseLoadBalancer: 
     def __init__(self, servers):
         self.servers = servers
-        self.lock = threading.Lock()
+        self.lock = asyncio.Lock()
 
-    def add_server(self, server):
-        if server not in self.servers:
-            with self.lock:
+    async def add_server(self, server):
+        async with self.lock:
+            if server not in self.servers:
                 self.servers.append(server)

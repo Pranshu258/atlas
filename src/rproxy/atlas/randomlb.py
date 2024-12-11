@@ -5,5 +5,5 @@ class RandomLoadBalancer(BaseLoadBalancer):
     def __init__(self, servers):
         super().__init__(servers)
         
-    def get_next_server(self):
+    async def get_next_server(self):
         return random.choice(self.servers)
