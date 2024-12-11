@@ -1,5 +1,5 @@
 import random
-from baselb import BaseLoadBalancer
+from .baselb import BaseLoadBalancer
 
 class RandomLoadBalancer(BaseLoadBalancer):
     def __init__(self, servers):

@@ -1,5 +1,5 @@
-from roundrobinlb import RoundRobinLoadBalancer
-from randomlb import RandomLoadBalancer
+from .roundrobinlb import RoundRobinLoadBalancer
+from .randomlb import RandomLoadBalancer
 
 class LoadBalancerFactory: 
     def CreateLoadBalancer(self, configuration):

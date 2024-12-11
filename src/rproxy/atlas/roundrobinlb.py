@@ -1,4 +1,4 @@
-from baselb import BaseLoadBalancer
+from .baselb import BaseLoadBalancer
 
 class RoundRobinLoadBalancer(BaseLoadBalancer):
     def __init__(self, servers):
