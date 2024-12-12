@@ -13,7 +13,7 @@ async def register(request):
             return HttpResponse("Invalid request - Origin host name not provided.", status=400)
     except Exception as e:
         return HttpResponse(f"Error reading request body: {str(e)}", status=400)
-    
+    print(f"Registering server: {server_name}")
     await ServerConfig.loadbalancer.add_server(server_name)
     return HttpResponse("Current State: " + ServerConfig.loadbalancer.servers.__str__())
 
