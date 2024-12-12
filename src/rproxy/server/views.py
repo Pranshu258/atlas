@@ -4,7 +4,15 @@ from django.http import HttpResponse
 from .apps import ServerConfig
 
 async def register(request):
-    await ServerConfig.loadbalancer.add_server("127.0.0.1:8003")
+    try:
+        data = await request.json()
+        server_name = data.get('origin_host')
+        if not server_name:
+            return HttpResponse("Invalid request - Origin host name not provided.", status=400)
+    except Exception as e:
+        return HttpResponse(f"Error reading request body: {str(e)}", status=400)
+    
+    await ServerConfig.loadbalancer.add_server(server_name)
     return HttpResponse("Current State: " + ServerConfig.loadbalancer.servers.__str__())
 
 async def forward(request, path):
