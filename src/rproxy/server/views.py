@@ -2,7 +2,9 @@ import asyncio
 import aiohttp
 from django.http import HttpResponse
 from .apps import ServerConfig
+from django.views.decorators.http import require_http_methods
 
+@require_http_methods(["POST"])
 async def register(request):
     try:
         data = await request.json()
