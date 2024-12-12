@@ -18,7 +18,11 @@ async def register(request):
     return HttpResponse("Current State: " + ServerConfig.loadbalancer.servers.__str__())
 
 async def forward(request, path):
-    origin = await ServerConfig.loadbalancer.get_next_server()
+    try: 
+        origin = await ServerConfig.loadbalancer.get_next_server()
+    except Exception as e:
+        return HttpResponse(f"Error connecting to the service: {str(e)}", status=500)
+    
     url = f"http://{origin}/{path}" 
     async with aiohttp.ClientSession() as session: 
         async with session.get(url) as response:
