@@ -1,4 +1,4 @@
-import asyncio
+import json
 import aiohttp
 from django.http import HttpResponse
 from .apps import ServerConfig
@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 @require_http_methods(["POST"])
 async def register(request):
     try:
-        data = await request.json()
+        data = json.loads(request.body)
         server_name = data.get('origin_host')
         if not server_name:
             return HttpResponse("Invalid request - Origin host name not provided.", status=400)
