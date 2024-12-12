@@ -1,7 +1,7 @@
 import numpy as np
 from math import gcd
 from functools import reduce
-from .baselb import RoundRobinLoadBalancer
+from .roundrobinlb import RoundRobinLoadBalancer
 
 class WeightedRoundRobinLoadBalancer(RoundRobinLoadBalancer):
     def __init__(self, servers, weights):
