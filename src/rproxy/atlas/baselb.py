@@ -12,8 +12,8 @@ class BaseLoadBalancer:
     async def add_server(self, server: OriginServer):
         async with self.lock:
             if server.host not in self.servers:
-                self.servers[server.host] = server
                 self.hosts.append(server.host)
+            self.servers[server.host] = server
 
     async def forward_request(self, request, path: str):
         if not self.servers:
