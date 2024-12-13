@@ -1,5 +1,4 @@
 import json
-import aiohttp
 from django.http import HttpResponse
 from .apps import ServerConfig
 from django.views.decorators.http import require_http_methods
@@ -21,13 +20,4 @@ async def register(request):
     return HttpResponse("Current State: " + str(ServerConfig.loadbalancer))
 
 async def forward(request, path):
-    try: 
-        origin = await ServerConfig.loadbalancer.get_next_server()
-    except Exception as e:
-        return HttpResponse(f"Error connecting to the service: {str(e)}", status=500)
-    
-    url = f"http://{origin.host}/{path}" 
-    async with aiohttp.ClientSession() as session: 
-        async with session.get(url) as response:
-            originalResponse = await response.text()
-            return HttpResponse(f"Response from {origin.host}: {originalResponse}")
+    return await ServerConfig.loadbalancer.forward_request(request, path)
