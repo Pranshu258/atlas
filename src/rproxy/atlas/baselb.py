@@ -33,7 +33,7 @@ class BaseLoadBalancer:
             origin.local_rif -= 1
 
         proxyResponse = HttpResponse(response)
-        proxyResponse["x-atlas-origin-server"] = origin.host
+        proxyResponse["X-Atlas-Origin-Server"] = origin.host
         return proxyResponse
         
     def __str__(self):

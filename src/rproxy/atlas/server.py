@@ -5,6 +5,8 @@ class OriginServer:
         self.host = host
         self.weight = weight
         self.local_rif = local_rif
+        self.cpu = cpu
+        self.latency = latency
         self.lock = asyncio.Lock()
 
     def __str__(self):
