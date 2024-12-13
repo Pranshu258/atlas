@@ -10,6 +10,6 @@ class LoadBalancerFactory:
             case 'roundrobin':
                 return RoundRobinLoadBalancer(configuration['servers'])
             case 'weightedroundrobin':
-                return WeightedRoundRobinLoadBalancer(configuration['servers'], weights=configuration['weights'])
+                return WeightedRoundRobinLoadBalancer(configuration['servers'])
             case _:
                 raise ValueError(f"Unknown load balancer type: {configuration['lb_type']}")
