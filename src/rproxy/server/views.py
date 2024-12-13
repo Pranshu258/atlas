@@ -3,19 +3,22 @@ import aiohttp
 from django.http import HttpResponse
 from .apps import ServerConfig
 from django.views.decorators.http import require_http_methods
+from atlas.server import OriginServer
 
 @require_http_methods(["POST"])
 async def register(request):
     try:
         data = json.loads(request.body)
-        server_name = data.get('origin_host')
-        if not server_name:
+        server = data.get('origin_server')
+        if server:
+            server = OriginServer(**server)
+        if not server:
             return HttpResponse("Invalid request - Origin host name not provided.", status=400)
     except Exception as e:
         return HttpResponse(f"Error reading request body: {str(e)}", status=400)
-    print(f"Registering server: {server_name}")
-    await ServerConfig.loadbalancer.add_server(server_name)
-    return HttpResponse("Current State: " + ServerConfig.loadbalancer.servers.__str__())
+    print(f"Registering server: {server.host}, with weight {server.weight}")
+    await ServerConfig.loadbalancer.add_server(server)
+    return HttpResponse("Current State: " + str(ServerConfig.loadbalancer))
 
 async def forward(request, path):
     try: 
@@ -23,8 +26,8 @@ async def forward(request, path):
     except Exception as e:
         return HttpResponse(f"Error connecting to the service: {str(e)}", status=500)
     
-    url = f"http://{origin}/{path}" 
+    url = f"http://{origin.host}/{path}" 
     async with aiohttp.ClientSession() as session: 
         async with session.get(url) as response:
             originalResponse = await response.text()
-            return HttpResponse(f"Response from {origin}: {originalResponse}")
+            return HttpResponse(f"Response from {origin.host}: {originalResponse}")
