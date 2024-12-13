@@ -15,7 +15,7 @@ class BaseLoadBalancer:
                 self.servers[server.host] = server
                 self.hosts.append(server.host)
 
-    async def forward_request(self, request, path):
+    async def forward_request(self, request, path: str):
         if not self.servers:
             return HttpResponse("Service unavailable, please try again after some time.", status=503)
         
@@ -27,13 +27,14 @@ class BaseLoadBalancer:
          
         async with aiohttp.ClientSession() as session: 
             async with session.get(url) as response:
-                originalResponse = await response.text()
-                response = f"Response from {origin.host}: {originalResponse}"
+                response = await response.text()
 
         async with origin.lock:
             origin.local_rif -= 1
 
-        return HttpResponse(response)
+        proxyResponse = HttpResponse(response)
+        proxyResponse["x-atlas-origin-server"] = origin.host
+        return proxyResponse
         
     def __str__(self):
         return ", ".join([str(server) for server in self.servers.values()])
