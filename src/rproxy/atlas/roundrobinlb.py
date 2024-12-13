@@ -1,5 +1,5 @@
 from .baselb import BaseLoadBalancer
-from .server import OriginServer
+from .originserver import OriginServer
 
 class RoundRobinLoadBalancer(BaseLoadBalancer):
     def __init__(self, servers: dict[str, OriginServer] = None):

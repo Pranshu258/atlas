@@ -1,6 +1,6 @@
 import random
 from .baselb import BaseLoadBalancer
-from .server import OriginServer
+from .originserver import OriginServer
 
 class RandomLoadBalancer(BaseLoadBalancer):
     def __init__(self, servers: dict[str, OriginServer] = None):

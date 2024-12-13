@@ -1,5 +1,5 @@
 import asyncio
-from .server import OriginServer
+from .originserver import OriginServer
 from django.http import HttpResponse
 import aiohttp
 
