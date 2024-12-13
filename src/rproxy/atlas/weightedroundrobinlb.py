@@ -1,19 +1,16 @@
-import numpy as np
-from math import gcd
-from functools import reduce
 from .roundrobinlb import RoundRobinLoadBalancer
+from .server import OriginServer
 
 class WeightedRoundRobinLoadBalancer(RoundRobinLoadBalancer):
-    def __init__(self, servers, weights):
+    def __init__(self, servers: dict[str, OriginServer] = None):
         super().__init__(servers)
-        self.weights = np.divide(weights, reduce(gcd, weights))
         self.current_repeat_count = 0
         
     async def get_next_server(self):
+        host = self.hosts[self.current_index]
         async with self.lock:
-            server = self.servers[self.current_index]
             self.current_repeat_count += 1
-            if self.current_repeat_count >= self.weights[self.current_index]:
-                self.current_index = (self.current_index + 1) % len(self.servers)
+            if self.current_repeat_count >= self.servers[host].weight:
+                self.current_index = (self.current_index + 1) % len(self.hosts)
                 self.current_repeat_count = 0
-        return server
+        return self.servers[host]
