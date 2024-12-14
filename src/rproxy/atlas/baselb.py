@@ -17,7 +17,7 @@ class BaseLoadBalancer:
             self.servers[server.host] = server
 
     async def forward_request(self, request, path: str):
-        if not self.servers:
+        if not self.servers or len(self.servers) == 0:
             return HttpResponse("Service unavailable, please try again after some time.", status=503)
         
         origin = await self.get_next_server()
