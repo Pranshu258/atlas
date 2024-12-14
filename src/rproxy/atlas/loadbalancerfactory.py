@@ -3,6 +3,7 @@ from .randomlb import RandomLoadBalancer
 from .weightedroundrobinlb import WeightedRoundRobinLoadBalancer
 from .leastconnectionlb import LeastConnectionLoadBalancer
 from .leastconnectionpoweroftwolb import LeastConnectionPowerOfTwoLoadBalancer
+from .leastlatencylb import LeastLatencyLoadBalancer
 
 class LoadBalancerFactory: 
     def CreateLoadBalancer(self, configuration):
@@ -17,5 +18,7 @@ class LoadBalancerFactory:
                 return LeastConnectionLoadBalancer(configuration['servers'])
             case 'leastconnectionpoweroftwo':
                 return LeastConnectionPowerOfTwoLoadBalancer(configuration['servers'])
+            case 'leastlatency':
+                return LeastLatencyLoadBalancer(configuration['servers'])
             case _:
                 raise ValueError(f"Unknown load balancer algorithm: {configuration['algorithm']}")
