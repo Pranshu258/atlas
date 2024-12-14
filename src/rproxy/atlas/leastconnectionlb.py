@@ -1,10 +1,9 @@
 from .originserver import OriginServer
-from .weightedroundrobinlb import WeightedRoundRobinLoadBalancer
+from .roundrobinlb import RoundRobinLoadBalancer
 
-class LeastConnectionLoadBalancer(WeightedRoundRobinLoadBalancer):
+class LeastConnectionLoadBalancer(RoundRobinLoadBalancer):
     def __init__(self, servers: dict[str, OriginServer] = None):
         super().__init__(servers)
-        self.current_repeat_count = 0
         
     async def get_next_server(self):
         min_connections = float('inf')
