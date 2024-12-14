@@ -2,6 +2,7 @@ import asyncio
 from .originserver import OriginServer
 from django.http import HttpResponse
 import aiohttp
+import time
 
 class BaseLoadBalancer:
     def __init__(self, servers: dict[str, OriginServer] = None):
@@ -25,12 +26,16 @@ class BaseLoadBalancer:
         async with origin.lock:
             origin.local_rif += 1
          
+        request_start_time = time.time()
         async with aiohttp.ClientSession() as session: 
             async with session.get(url) as response:
                 response = await response.text()
+        request_end_time = time.time()
+        elapsed_time = request_end_time - request_start_time
 
         async with origin.lock:
             origin.local_rif -= 1
+            origin.latency = elapsed_time + origin.latency/2
 
         proxyResponse = HttpResponse(response)
         proxyResponse["X-Atlas-Origin-Server"] = origin.host
