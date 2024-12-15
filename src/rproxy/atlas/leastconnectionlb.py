@@ -2,10 +2,25 @@ from .originserver import OriginServer
 from .roundrobinlb import RoundRobinLoadBalancer
 
 class LeastConnectionLoadBalancer(RoundRobinLoadBalancer):
+    """
+    A load balancer that selects the origin server with the least number of active connections.
+    """
     def __init__(self, servers: dict[str, OriginServer] = None):
+        """
+        Initialize the least connection load balancer with the given servers.
+        
+        Args:
+            servers (dict[str, OriginServer]): A dictionary of servers with hostnames as keys and OriginServer instances as values.
+        """
         super().__init__(servers)
         
     async def get_next_server(self):
+        """
+        Get the next server with the least number of active connections.
+        
+        Returns:
+            OriginServer: The next server to handle the request.
+        """
         min_connections = float('inf')
         candiate_hosts = []
         host_indices = []

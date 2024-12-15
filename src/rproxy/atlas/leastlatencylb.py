@@ -2,10 +2,25 @@ from .originserver import OriginServer
 from .roundrobinlb import RoundRobinLoadBalancer
 
 class LeastLatencyLoadBalancer(RoundRobinLoadBalancer):
+    """
+    A load balancer that selects the origin server with the least latency.
+    """
     def __init__(self, servers: dict[str, OriginServer] = None):
+        """
+        Initialize the least latency load balancer with the given servers.
+        
+        Args:
+            servers (dict[str, OriginServer]): A dictionary of servers with hostnames as keys and OriginServer instances as values.
+        """
         super().__init__(servers)
         
     async def get_next_server(self):
+        """
+        Get the next server with the least latency.
+        
+        Returns:
+            OriginServer: The next server to handle the request.
+        """
         print([server.latency for server in self.servers.values()])
         min_latency = float('inf')
         candiate_hosts = []
