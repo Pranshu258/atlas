@@ -20,6 +20,15 @@ The `OriginServer` class represents an origin server with various attributes suc
 - `__init__(self, host, weight=1, cpu=0, local_rif=0, latency=0)`: Initializes the origin server with the given attributes.
 - `__str__(self)`: Returns a string representation of the origin server.
 
+### BaseLoadBalancer
+The `BaseLoadBalancer` class is the base class for all load balancers. It maintains a list of origin servers and a mapping of hostnames to server objects.
+
+#### Methods
+- `__init__(self, servers: dict[str, OriginServer] = None)`: Initializes the load balancer with the given servers.
+- `add_server(self, server: OriginServer)`: Adds a server to the load balancer.
+- `forward_request(self, request, path: str)`: Forwards the request to the appropriate origin server based on the load balancing algorithm.
+- `__str__(self)`: Returns a string representation of the load balancer.
+
 ## LoadBalancerFactory
 The `LoadBalancerFactory` class is a factory class to create different types of load balancers based on the given configuration.
 
