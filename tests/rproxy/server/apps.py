@@ -5,5 +5,5 @@ class ServerConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'server'
     loadbalancer = LoadBalancerFactory().CreateLoadBalancer(
-        {'algorithm': 'leastlatency', 'servers': None}
+        {'algorithm': 'roundrobin', 'servers': None}
     )

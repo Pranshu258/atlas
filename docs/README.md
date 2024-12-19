@@ -7,6 +7,9 @@ Atlas can be installed from the Python Package Index using the following command
 pip install atlaslb
 ```
 
+## Usage
+
+
 ## Supported Algorithms
 1. [Random](./random.md)
 2. [Round Robin](./roundrobin.md)
