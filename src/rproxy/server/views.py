@@ -2,7 +2,7 @@ import json
 from django.http import HttpResponse
 from .apps import ServerConfig
 from django.views.decorators.http import require_http_methods
-from atlas.originserver import OriginServer
+from rproxy.atlas.src.originserver import OriginServer
 
 @require_http_methods(["POST"])
 async def register(request):

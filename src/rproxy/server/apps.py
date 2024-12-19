@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-import atlas.loadbalancerfactory as LoadBalancerFactory
+import rproxy.atlas.src.loadbalancerfactory as LoadBalancerFactory
 
 class ServerConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
