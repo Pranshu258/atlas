@@ -1,12 +1,16 @@
 #!/bin/bash
 
+source ../atlas/bin/activate 
+
+python rproxy/manage.py runserver
+
 # List of ports to run the Django app on
 PORTS=(8001 8002 8003 8004)
 
 for PORT in "${PORTS[@]}"
 do
     echo "Starting server on port $PORT"
-    python manage.py runserver $PORT &
+    python origin/manage.py runserver $PORT &
 done
 
 wait
