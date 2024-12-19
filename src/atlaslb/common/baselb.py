@@ -54,7 +54,7 @@ class BaseLoadBalancer:
             origin.local_rif += 1
          
         request_start_time = time.time()
-        async with aiohttp.ClientSession() as session: 
+        async with aiohttp.ClientSession(trust_env=True) as session: 
             async with session.get(url) as response:
                 response = await response.text()
         request_end_time = time.time()

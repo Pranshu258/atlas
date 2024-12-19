@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "atlaslb"
-version = "1.0.3"
+version = "1.0.4"
 description = "Atlas - A reverse proxy software load balancer for Django apps."
 readme = "docs/README.md"
 authors = [{ name = "Pranshu Gupta", email = "pranshug258@outlook.com" }]
