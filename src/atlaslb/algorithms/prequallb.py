@@ -5,6 +5,7 @@ from ..common.originserver import OriginServer
 class PrequalLoadBalancer(BaseLoadBalancer):
     """
     A load balancer that selects the origin server based on Google's Prequal algorithm.
+    https://research.google/pubs/load-is-not-what-you-should-balance-introducing-prequal/
     """
     def __init__(self, servers: dict[str, OriginServer] = None):
         """
@@ -17,7 +18,7 @@ class PrequalLoadBalancer(BaseLoadBalancer):
         
     async def get_next_server(self):
         """
-        Get the next origin server based on google's prequal algorithm.
+        Get the next origin server based on Google's Prequal algorithm.
         
         Returns:
             OriginServer: The next server to handle the request.
