@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ../../atlas/bin/activate 
+
+python manage.py runserver 8000
