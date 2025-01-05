@@ -5,7 +5,7 @@ class OriginServer:
     Represents an origin server with various attributes such as host, weight, CPU usage, 
     local requests in flight (local_rif), and latency.
     """
-    def __init__(self, host, weight=1, cpu=0, local_rif=0, latency=0):
+    def __init__(self, host, weight=1, cpu=0, local_rif=0, latency=0, probe_path="/probe"):
         """
         Initialize the origin server with the given attributes.
         
@@ -22,6 +22,7 @@ class OriginServer:
         self.cpu = cpu
         self.latency = latency
         self.lock = asyncio.Lock()
+        self.probe_path = probe_path
 
     def __str__(self):
         """
@@ -30,4 +31,4 @@ class OriginServer:
         Returns:
             str: A string representation of the origin server.
         """
-        return f"{self.host} ({self.weight}, {self.local_rif})"
+        return f"{self.host} ({self.weight}, {self.local_rif}, {self.cpu}, {self.latency})"
